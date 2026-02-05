@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meu Livro de Receitas</title>
 
-  <a href="./add.html">Adicionar Receita</a>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <header class="header">
     <div class="container header__content">
@@ -21,11 +21,28 @@
       </div>
 
       <nav class="nav" aria-label="Navegação principal">
-        <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+        <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">
+          Menu
+        </button>
+
         <ul class="nav__links" id="navLinks">
-          <li><a class="nav__link is-active" href="index.html" data-nav="home">Início</a></li>
-          <li><a class="nav__link" href="#receitas" data-nav="receitas">Receitas</a></li>
-           <a href="./add.html">Adicionar Receita</a>
+          <li>
+            <a class="nav__link is-active" href="index.html" data-nav="home" aria-current="page">
+              Início
+            </a>
+          </li>
+
+          <li>
+            <a class="nav__link" href="#receitas" data-nav="receitas">
+              Receitas
+            </a>
+          </li>
+
+          <li>
+            <a class="nav__link" href="./add.html" data-nav="add">
+              Adicionar Receita
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -37,7 +54,13 @@
         <label class="search__label" for="searchInput">Pesquisar receita</label>
         <div class="search__box">
           <span class="search__icon" aria-hidden="true">🔎</span>
-          <input id="searchInput" class="search__input" type="search" placeholder="Ex.: matapa, chamussa, gulab..." autocomplete="off" />
+          <input
+            id="searchInput"
+            class="search__input"
+            type="search"
+            placeholder="Ex.: matapa, chamussa, gulab."
+            autocomplete="off"
+          />
         </div>
       </div>
 
@@ -64,7 +87,13 @@
 
     <section class="summaryRow" aria-label="Resumo">
       <p class="summary" id="summaryText">Carregando receitas…</p>
-      <button class="btn btn--ghost" id="clearStorageBtn" type="button" title="Remove apenas receitas adicionadas por você">
+
+      <button
+        class="btn btn--ghost"
+        id="clearStorageBtn"
+        type="button"
+        title="Remove apenas receitas adicionadas por você"
+      >
         Limpar receitas adicionadas
       </button>
     </section>
@@ -77,13 +106,21 @@
   </main>
 
   <!-- Modal -->
-  <div class="modal" id="recipeModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div
+    class="modal"
+    id="recipeModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-hidden="true"
+  >
     <div class="modal__backdrop" data-close="true"></div>
 
     <div class="modal__panel" role="document">
       <header class="modal__header">
         <div class="modal__headerLeft">
           <h2 class="modal__title" id="modalTitle">Título</h2>
+
           <div class="metaRow">
             <span class="badge" id="modalCategory">Categoria</span>
             <span class="badge badge--soft" id="modalOrigin">Origem</span>
@@ -92,6 +129,7 @@
             <span class="pill" id="modalDifficulty">⭐</span>
           </div>
         </div>
+
         <button class="modal__close" type="button" aria-label="Fechar" data-close="true">✕</button>
       </header>
 
