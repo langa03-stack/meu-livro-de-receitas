@@ -4,9 +4,181 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Adicionar Receita • Meu Livro de Receitas</title>
+
   <link rel="stylesheet" href="./styles.css">
+
+  <style>
+    /* ===== Layout geral ===== */
+    .addPage {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .addHeader {
+      margin-bottom: 20px;
+    }
+
+    .addHeader h1 {
+      margin: 0 0 6px;
+    }
+
+    .addHeader p {
+      opacity: .75;
+      margin: 0;
+    }
+
+    .addCard {
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(31,41,55,.12);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+    }
+
+    .section {
+      margin-bottom: 26px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(31,41,55,.18);
+      background: rgba(255,255,255,.9);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .help {
+      font-size: 12px;
+      opacity: .65;
+    }
+
+    /* ===== Imagem ===== */
+    .imageBox {
+      border: 1px dashed rgba(31,41,55,.25);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(246,240,227,.6);
+    }
+
+    .imagePreview {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #eee;
+      margin-top: 10px;
+    }
+
+    /* ===== Ingredientes ===== */
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btnSmall {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,41,55,.18);
+      background: rgba(255,255,255,.85);
+      cursor: pointer;
+    }
+
+    .btnSmall.danger {
+      color: #b42318;
+      border-color: rgba(180,35,24,.35);
+    }
+
+    ul.simpleList {
+      margin-top: 10px;
+      padding-left: 18px;
+    }
+
+    /* ===== Blocos ===== */
+    .blockCard {
+      border: 1px solid rgba(31,41,55,.12);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+      background: rgba(255,255,255,.85);
+    }
+
+    .blockHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    /* ===== Rodapé ===== */
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .btnPrimary {
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(31,41,55,.18);
+      background: rgba(128,140,80,.25);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btnGhost {
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(31,41,55,.18);
+      background: rgba(255,255,255,.8);
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+    }
+  </style>
 </head>
+
 <body>
+  <!-- Header -->
   <header class="topbar">
     <div class="topbar__inner">
       <div class="brand">
@@ -20,78 +192,112 @@
     </div>
   </header>
 
-  <main class="container" style="max-width:1100px; margin:0 auto; padding:18px;">
-    <h1>Adicionar Receita</h1>
-    <p style="opacity:.75">A receita fica salva no navegador (localStorage) e aparece na página inicial.</p>
+  <!-- Conteúdo -->
+  <main class="addPage">
+    <div class="addHeader">
+      <h1>Adicionar Receita</h1>
+      <p>Preencha os dados abaixo para adicionar uma nova receita ao livro.</p>
+    </div>
 
-    <form id="recipeForm" class="card" style="padding:16px;">
-      <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-        <div>
-          <label>Nome *</label>
-          <input id="title" required placeholder="Ex.: Bolo de Laranja" />
+    <form id="recipeForm" class="addCard">
+      <!-- Informações básicas -->
+      <div class="section">
+        <h2>📋 Informações básicas</h2>
 
-          <label style="margin-top:10px; display:block;">Origem *</label>
-          <select id="origin">
-            <option value="mz">🇲🇿 Moçambique</option>
-            <option value="intl">🌍 Internacional</option>
-          </select>
+        <div class="grid2">
+          <div class="field">
+            <label>Nome da receita *</label>
+            <input id="title" placeholder="Ex.: Bolo de Laranja" required>
+          </div>
 
-          <label style="margin-top:10px; display:block;">Categoria *</label>
-          <select id="category">
-            <option value="doce">Doce</option>
-            <option value="salgado">Salgado</option>
-          </select>
+          <div class="field">
+            <label>Origem *</label>
+            <select id="origin">
+              <option value="mz">🇲🇿 Moçambique</option>
+              <option value="intl">🌍 Internacional</option>
+            </select>
+          </div>
 
-          <label style="margin-top:10px; display:block;">Tempo *</label>
-          <input id="time" required placeholder="Ex.: 45 min" />
+          <div class="field">
+            <label>Categoria *</label>
+            <select id="category">
+              <option value="doce">Doce</option>
+              <option value="salgado">Salgado</option>
+            </select>
+          </div>
 
-          <label style="margin-top:10px; display:block;">Rendimento *</label>
-          <input id="yield" required placeholder="Ex.: 10 fatias" />
+          <div class="field">
+            <label>Tempo de preparo *</label>
+            <input id="time" placeholder="Ex.: 45 min">
+          </div>
 
-          <label style="margin-top:10px; display:block;">Dificuldade *</label>
-          <select id="difficulty">
-            <option>Fácil</option>
-            <option>Médio</option>
-            <option>Difícil</option>
-          </select>
+          <div class="field">
+            <label>Rendimento *</label>
+            <input id="yield" placeholder="Ex.: 10 fatias">
+          </div>
+
+          <div class="field">
+            <label>Dificuldade *</label>
+            <select id="difficulty">
+              <option>Fácil</option>
+              <option>Médio</option>
+              <option>Difícil</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Imagem -->
+      <div class="section">
+        <h2>📸 Foto da receita</h2>
+
+        <div class="imageBox">
+          <div class="field">
+            <label>Upload da imagem *</label>
+            <input id="imageFile" type="file" accept="image/*">
+            <span class="help">A imagem será comprimida e guardada no navegador.</span>
+          </div>
+
+          <img id="imagePreview" class="imagePreview" alt="Pré-visualização">
+        </div>
+      </div>
+
+      <!-- Ingredientes -->
+      <div class="section">
+        <h2>🥕 Ingredientes</h2>
+
+        <div class="row">
+          <input id="ingredientInput" placeholder="Ex.: 4 laranjas" style="flex:1;">
+          <button type="button" id="addIngredientBtn" class="btnSmall">Adicionar</button>
+          <button type="button" id="clearIngredientsBtn" class="btnSmall danger">Limpar</button>
         </div>
 
-        <div>
-          <label>Foto (upload) *</label>
-          <input id="imageFile" type="file" accept="image/*" required />
-          <img id="imagePreview" style="width:100%; margin-top:10px; border-radius:14px; object-fit:cover; aspect-ratio:16/10; background:#eee;" alt="Pré-visualização"/>
-          <small style="opacity:.75">A imagem é comprimida e guardada no navegador.</small>
+        <ul id="ingredientsList" class="simpleList"></ul>
+      </div>
+
+      <!-- Modo de preparo -->
+      <div class="section">
+        <h2>👩‍🍳 Modo de preparo</h2>
+
+        <div class="row">
+          <input id="blockTitle" placeholder="Título do bloco (ex.: Massa)" style="flex:1;">
+          <button type="button" id="addBlockBtn" class="btnSmall">Criar bloco</button>
         </div>
+
+        <div id="blocksContainer"></div>
       </div>
 
-      <hr style="margin:18px 0; opacity:.2">
-
-      <h3>Ingredientes *</h3>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <input id="ingredientInput" placeholder="Ex.: 4 laranjas" style="flex:1;">
-        <button type="button" id="addIngredientBtn">Adicionar</button>
-        <button type="button" id="clearIngredientsBtn">Limpar</button>
+      <!-- Dicas -->
+      <div class="section">
+        <h2>💡 Dicas (opcional)</h2>
+        <textarea id="tips" placeholder="Uma dica por linha"></textarea>
       </div>
-      <ul id="ingredientsList"></ul>
 
-      <hr style="margin:18px 0; opacity:.2">
-
-      <h3>Modo de preparo (blocos) *</h3>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <input id="blockTitle" placeholder="Título do bloco (ex.: Massa)" style="flex:1;">
-        <button type="button" id="addBlockBtn">Criar bloco</button>
-      </div>
-      <div id="blocksContainer"></div>
-
-      <hr style="margin:18px 0; opacity:.2">
-
-      <h3>Dicas (opcional)</h3>
-      <textarea id="tips" placeholder="Uma dica por linha" style="width:100%; min-height:90px;"></textarea>
-
-      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
-        <button type="submit">Salvar Receita</button>
-        <a href="./index.html">Voltar</a>
-        <span id="statusMsg" style="opacity:.8;"></span>
+      <!-- Ações -->
+      <div class="actions">
+        <button type="submit" class="btnPrimary">Salvar Receita</button>
+        <a href="./index.html" class="btnGhost">Voltar</a>
+        <span id="statusMsg" class="help"></span>
       </div>
     </form>
   </main>
