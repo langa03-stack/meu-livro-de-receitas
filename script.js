@@ -1,6 +1,8 @@
 // script.js
 const STORAGE_KEY = "mlr_recipes_v2";
 const IMG_CACHE_KEY = "mlr_img_cache_v1";
+const userRecipes = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+const RECIPES = [...userRecipes, ...DEFAULT_RECIPES];
 
 const PLACEHOLDER =
   "data:image/svg+xml;utf8," +
