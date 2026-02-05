@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adicionar Receita • Meu Livro de Receitas</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <span class="brand__logo">🍽️</span>
+        <span class="brand__name">Meu Livro de Receitas</span>
+      </div>
+      <nav class="nav">
+        <a class="nav__link" href="./index.html">Início</a>
+        <a class="nav__link is-active" href="./add.html">Adicionar Receita</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:1100px; margin:0 auto; padding:18px;">
+    <h1>Adicionar Receita</h1>
+    <p style="opacity:.75">A receita fica salva no navegador (localStorage) e aparece na página inicial.</p>
+
+    <form id="recipeForm" class="card" style="padding:16px;">
+      <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div>
+          <label>Nome *</label>
+          <input id="title" required placeholder="Ex.: Bolo de Laranja" />
+
+          <label style="margin-top:10px; display:block;">Origem *</label>
+          <select id="origin">
+            <option value="mz">🇲🇿 Moçambique</option>
+            <option value="intl">🌍 Internacional</option>
+          </select>
+
+          <label style="margin-top:10px; display:block;">Categoria *</label>
+          <select id="category">
+            <option value="doce">Doce</option>
+            <option value="salgado">Salgado</option>
+          </select>
+
+          <label style="margin-top:10px; display:block;">Tempo *</label>
+          <input id="time" required placeholder="Ex.: 45 min" />
+
+          <label style="margin-top:10px; display:block;">Rendimento *</label>
+          <input id="yield" required placeholder="Ex.: 10 fatias" />
+
+          <label style="margin-top:10px; display:block;">Dificuldade *</label>
+          <select id="difficulty">
+            <option>Fácil</option>
+            <option>Médio</option>
+            <option>Difícil</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Foto (upload) *</label>
+          <input id="imageFile" type="file" accept="image/*" required />
+          <img id="imagePreview" style="width:100%; margin-top:10px; border-radius:14px; object-fit:cover; aspect-ratio:16/10; background:#eee;" alt="Pré-visualização"/>
+          <small style="opacity:.75">A imagem é comprimida e guardada no navegador.</small>
+        </div>
+      </div>
+
+      <hr style="margin:18px 0; opacity:.2">
+
+      <h3>Ingredientes *</h3>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <input id="ingredientInput" placeholder="Ex.: 4 laranjas" style="flex:1;">
+        <button type="button" id="addIngredientBtn">Adicionar</button>
+        <button type="button" id="clearIngredientsBtn">Limpar</button>
+      </div>
+      <ul id="ingredientsList"></ul>
+
+      <hr style="margin:18px 0; opacity:.2">
+
+      <h3>Modo de preparo (blocos) *</h3>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <input id="blockTitle" placeholder="Título do bloco (ex.: Massa)" style="flex:1;">
+        <button type="button" id="addBlockBtn">Criar bloco</button>
+      </div>
+      <div id="blocksContainer"></div>
+
+      <hr style="margin:18px 0; opacity:.2">
+
+      <h3>Dicas (opcional)</h3>
+      <textarea id="tips" placeholder="Uma dica por linha" style="width:100%; min-height:90px;"></textarea>
+
+      <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
+        <button type="submit">Salvar Receita</button>
+        <a href="./index.html">Voltar</a>
+        <span id="statusMsg" style="opacity:.8;"></span>
+      </div>
+    </form>
+  </main>
+
+  <script src="./add.js"></script>
+</body>
+</html>
