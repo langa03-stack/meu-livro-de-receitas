@@ -1,58 +1,361 @@
-<!-- Ingredientes -->
-<div class="section">
-  <h2>🥕 Ingredientes <span class="help" id="ingCount">(0)</span></h2>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adicionar Receita • Meu Livro de Receitas</title>
 
-  <div class="grid2">
-    <div class="field">
-      <label>Ingrediente *</label>
-      <input id="ingName" placeholder="Ex.: Farinha de trigo" />
+  <!-- Mantém teu CSS principal -->
+  <link rel="stylesheet" href="./styles.css?v=3">
+
+  <!-- CSS desta página (garante que não fica “cru”) -->
+  <style>
+    :root{
+      --bg:#f6f0e3;
+      --card:rgba(255,255,255,.82);
+      --border:rgba(31,41,55,.14);
+      --text:rgba(31,41,55,.92);
+      --muted:rgba(31,41,55,.68);
+      --olive:rgba(128,140,80,.25);
+      --oliveStrong:rgba(128,140,80,.40);
+      --danger:#b42318;
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    body{ background: var(--bg); color: var(--text); font-family: Roboto, Arial, sans-serif; }
+
+    /* Header simples (não depende do teu styles.css) */
+    .topbar{
+      position: sticky; top:0; z-index:10;
+      background: rgba(246,240,227,.92);
+      border-bottom: 1px solid rgba(31,41,55,.10);
+      backdrop-filter: blur(8px);
+    }
+    .topbar__inner{
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; }
+    .brand__logo{ font-size: 20px; }
+    .nav{ display:flex; gap:10px; flex-wrap:wrap; }
+    .nav a{
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,41,55,.12);
+      background: rgba(255,255,255,.55);
+      color: var(--text);
+      font-weight: 700;
+    }
+    .nav a.is-active{ background: var(--olive); border-color: rgba(128,140,80,.45); }
+
+    /* Page */
+    .page{
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .hero{
+      display:flex; justify-content:space-between; gap:14px; align-items:flex-end;
+      margin: 10px 0 16px;
+    }
+    .hero h1{ margin:0; font-size: 28px; }
+    .hero p{ margin:6px 0 0; color: var(--muted); }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .section{ margin-top: 18px; }
+    .sectionTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin: 0 0 10px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .2px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .help{ color: var(--muted); font-size: 12px; }
+    .badge{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,41,55,.14);
+      background: rgba(255,255,255,.65);
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(31,41,55,.80);
+    }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media(max-width: 920px){ .grid2,.grid3{ grid-template-columns:1fr; } }
+
+    .field{ display:flex; flex-direction:column; gap:6px; }
+    label{ font-weight: 800; font-size: 13px; }
+    input, select, textarea{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(31,41,55,.18);
+      background: rgba(255,255,255,.9);
+      outline:none;
+    }
+    textarea{ min-height: 96px; resize: vertical; }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .row > *{ flex: 0 0 auto; }
+    .row .grow{ flex: 1 1 280px; }
+
+    .btn{
+      cursor:pointer;
+      border-radius: 12px;
+      border: 1px solid rgba(31,41,55,.18);
+      padding: 10px 14px;
+      background: rgba(255,255,255,.78);
+      font-weight: 900;
+    }
+    .btn.primary{ background: var(--olive); border-color: rgba(128,140,80,.50); }
+    .btn.primary:hover{ background: var(--oliveStrong); }
+    .btn.danger{ color: var(--danger); border-color: rgba(180,35,24,.35); }
+
+    .softBox{
+      border: 1px dashed rgba(31,41,55,.22);
+      background: rgba(246,240,227,.55);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .preview{
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      margin-top: 10px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #eee;
+      border: 1px solid rgba(31,41,55,.10);
+    }
+
+    /* Ingredient cards */
+    .itemCard{
+      border: 1px solid rgba(31,41,55,.12);
+      background: rgba(255,255,255,.78);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-top: 10px;
+    }
+    .itemCard strong{ display:block; }
+    .miniBtns{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .miniBtns .btn{ padding: 8px 10px; border-radius: 999px; font-weight: 900; }
+
+    /* Block cards */
+    .blockCard{
+      border: 1px solid rgba(31,41,55,.12);
+      background: rgba(255,255,255,.80);
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .blockHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    ol{ padding-left: 18px; }
+    li{ margin-bottom: 8px; line-height: 1.55; }
+
+    .footerActions{
+      margin-top: 18px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    #statusMsg{ font-weight: 800; }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <span class="brand__logo">🍽️</span>
+        <span>Meu Livro de Receitas</span>
+      </div>
+      <nav class="nav">
+        <a href="./index.html">Início</a>
+        <a class="is-active" href="./add.html">Adicionar Receita</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="hero">
+      <div>
+        <h1>Adicionar Receita</h1>
+        <p>Preencha os dados. A receita fica salva no navegador (localStorage) e aparece na página inicial.</p>
+      </div>
+      <a class="btn" href="./index.html" style="text-decoration:none;">Voltar</a>
     </div>
 
-    <div class="field">
-      <label>Quantidade / Medida *</label>
-      <input id="ingQty" placeholder="Ex.: 2 xícaras (chá)" />
-    </div>
+    <form id="recipeForm" class="card" novalidate>
+      <!-- Básico + Foto -->
+      <div class="grid2">
+        <div>
+          <div class="sectionTitle"><h2>📋 Informações</h2><span class="help">Campos com * são obrigatórios</span></div>
 
-    <div class="field" style="grid-column: 1 / -1;">
-      <label>Nota (opcional)</label>
-      <input id="ingNote" placeholder="Ex.: peneirada / bem madura / sem sementes..." />
-    </div>
-  </div>
+          <div class="field">
+            <label for="title">Nome *</label>
+            <input id="title" required placeholder="Ex.: Bolo de Laranja">
+          </div>
 
-  <div class="row" style="margin-top:10px;">
-    <button type="button" id="addIngBtn" class="btnSmall">+ Adicionar ingrediente</button>
-    <button type="button" id="clearIngBtn" class="btnSmall danger">Limpar lista</button>
-    <span class="help">Dica: pressione <b>Enter</b> no campo “Quantidade” para adicionar.</span>
-  </div>
+          <div class="grid3" style="margin-top:12px;">
+            <div class="field">
+              <label for="origin">Origem *</label>
+              <select id="origin">
+                <option value="mz">🇲🇿 Moçambique</option>
+                <option value="intl">🌍 Internacional</option>
+              </select>
+            </div>
 
-  <div id="ingList" style="margin-top:12px;"></div>
-</div>
+            <div class="field">
+              <label for="category">Categoria *</label>
+              <select id="category">
+                <option value="doce">Doce</option>
+                <option value="salgado">Salgado</option>
+              </select>
+            </div>
 
-<!-- Modo de preparo -->
-<div class="section">
-  <h2>👩‍🍳 Modo de preparo <span class="help" id="blockCount">(0 blocos)</span></h2>
+            <div class="field">
+              <label for="difficulty">Dificuldade *</label>
+              <select id="difficulty">
+                <option>Fácil</option>
+                <option>Médio</option>
+                <option>Difícil</option>
+              </select>
+            </div>
+          </div>
 
-  <div class="grid2">
-    <div class="field">
-      <label>Título do bloco *</label>
-      <input id="blockTitle" placeholder="Ex.: Massa / Calda / Recheio / Assar" />
-    </div>
+          <div class="grid2" style="margin-top:12px;">
+            <div class="field">
+              <label for="time">Tempo *</label>
+              <input id="time" required placeholder="Ex.: 45 min">
+            </div>
+            <div class="field">
+              <label for="yield">Rendimento *</label>
+              <input id="yield" required placeholder="Ex.: 10 fatias">
+            </div>
+          </div>
+        </div>
 
-    <div class="field">
-      <label>Tempo do bloco (opcional)</label>
-      <input id="blockTime" placeholder="Ex.: 10 min" />
-    </div>
+        <div>
+          <div class="sectionTitle"><h2>📸 Foto</h2><span class="help">Upload local</span></div>
 
-    <div class="field" style="grid-column: 1 / -1;">
-      <label>Nota do bloco (opcional)</label>
-      <input id="blockNote" placeholder="Ex.: Não abra o forno antes de 30 min." />
-    </div>
-  </div>
+          <div class="softBox">
+            <div class="field">
+              <label for="imageFile">Foto (upload) *</label>
+              <input id="imageFile" type="file" accept="image/*">
+              <span class="help">A imagem é comprimida para ficar leve.</span>
+            </div>
+            <img id="imagePreview" class="preview" alt="Pré-visualização">
+          </div>
+        </div>
+      </div>
 
-  <div class="row" style="margin-top:10px;">
-    <button type="button" id="createBlockBtn" class="btnSmall">+ Criar bloco</button>
-    <span class="help">Depois de criar, adicione passos um por um (fica bem claro).</span>
-  </div>
+      <!-- Ingredientes -->
+      <div class="section">
+        <div class="sectionTitle">
+          <h2>🥕 Ingredientes</h2>
+          <span class="badge" id="ingCount">(0)</span>
+        </div>
 
-  <div id="blocksContainer" style="margin-top:12px;"></div>
-</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="ingName">Ingrediente *</label>
+            <input id="ingName" placeholder="Ex.: Farinha de trigo">
+          </div>
+          <div class="field">
+            <label for="ingQty">Quantidade / Medida *</label>
+            <input id="ingQty" placeholder="Ex.: 2 xícaras (chá)">
+          </div>
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="ingNote">Nota (opcional)</label>
+            <input id="ingNote" placeholder="Ex.: peneirada / bem madura / sem sementes...">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button type="button" id="addIngBtn" class="btn primary">+ Adicionar ingrediente</button>
+          <button type="button" id="clearIngBtn" class="btn danger">Limpar lista</button>
+          <span class="help">Dica: pressione <b>Enter</b> no campo “Quantidade”.</span>
+        </div>
+
+        <div id="ingList"></div>
+      </div>
+
+      <!-- Preparo -->
+      <div class="section">
+        <div class="sectionTitle">
+          <h2>👩‍🍳 Modo de preparo</h2>
+          <span class="badge" id="blockCount">(0 blocos)</span>
+        </div>
+
+        <div class="grid3">
+          <div class="field">
+            <label for="blockTitle">Título do bloco *</label>
+            <input id="blockTitle" placeholder="Ex.: Massa / Calda / Recheio / Assar">
+          </div>
+          <div class="field">
+            <label for="blockTime">Tempo (opcional)</label>
+            <input id="blockTime" placeholder="Ex.: 10 min">
+          </div>
+          <div class="field">
+            <label for="blockNote">Nota (opcional)</label>
+            <input id="blockNote" placeholder="Ex.: Não abra o forno antes de 30 min.">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button type="button" id="createBlockBtn" class="btn primary">+ Criar bloco</button>
+          <span class="help">Depois de criar, você adiciona passos um por um.</span>
+        </div>
+
+        <div id="blocksContainer"></div>
+      </div>
+
+      <!-- Dicas -->
+      <div class="section">
+        <div class="sectionTitle">
+          <h2>💡 Dicas</h2>
+          <span class="help">Opcional</span>
+        </div>
+        <div class="field">
+          <label for="tips">Dicas (uma por linha)</label>
+          <textarea id="tips" placeholder="Ex.: Use raspas da laranja para mais aroma."></textarea>
+        </div>
+      </div>
+
+      <!-- Ações -->
+      <div class="footerActions">
+        <button type="submit" class="btn primary">Salvar Receita</button>
+        <a href="./index.html" class="btn" style="text-decoration:none;">Voltar</a>
+        <span id="statusMsg" class="help"></span>
+      </div>
+    </form>
+  </main>
+
+  <script src="./add.js?v=3"></script>
+</body>
+</html>
