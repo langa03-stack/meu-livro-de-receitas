@@ -416,3 +416,79 @@ body{
   .modal__image{ height: 200px; }
   .summaryRow{ flex-direction: column; align-items: flex-start; }
 }
+/* ===== Modal: Ingredientes e Preparo (upgrade) ===== */
+.ingGroup { list-style: none; margin: 0 0 14px; padding: 0; }
+.ingGroup__title{
+  font-weight: 800;
+  margin: 4px 0 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(128,140,80,.18);
+  border: 1px solid rgba(31,41,55,.12);
+}
+.ingGroup__list{ margin:0; padding:0; display:grid; gap:8px; }
+.ingItem{ list-style:none; }
+
+.chk{ display:flex; gap:10px; align-items:flex-start; cursor:pointer; }
+.chk input{ display:none; }
+.chkBox{
+  width: 20px; height:20px; border-radius: 6px;
+  border:1px solid rgba(31,41,55,0.25);
+  background: rgba(255,255,255,0.8);
+  position: relative; flex: 0 0 20px;
+  margin-top: 2px;
+}
+.chk input:checked + .chkBox{
+  background: rgba(128,140,80,0.35);
+  border-color: rgba(128,140,80,0.55);
+}
+.chk input:checked + .chkBox::after{
+  content:"✓";
+  position:absolute; inset:0;
+  display:grid; place-items:center;
+  font-weight:900;
+  color: rgba(31,41,55,0.85);
+}
+.ingText{ line-height:1.5; }
+.ingQty{
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(31,41,55,0.06);
+  border: 1px solid rgba(31,41,55,0.10);
+  margin-right: 6px;
+  display:inline-block;
+}
+.ingNote{ color: rgba(31,41,55,0.65); margin-left: 6px; }
+
+.prepTop{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.prepProgress{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.prepProgress__label{ font-weight: 800; color: rgba(31,41,55,0.75); }
+.prepProgress__value{
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(31,41,55,0.12);
+  background: rgba(255,255,255,0.65);
+}
+.btn--tiny{ padding: 8px 10px; border-radius: 12px; font-size: 12px; }
+
+.prepBlock{
+  border: 1px solid rgba(31,41,55,0.12);
+  background: rgba(255,255,255,0.65);
+  border-radius: 16px;
+  padding: 12px;
+  margin-top: 12px;
+}
+.prepBlock__title{ margin:0; font-size: 15px; font-weight: 900; }
+.prepNote{
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(246,240,227,0.75);
+  border: 1px solid rgba(31,41,55,0.10);
+  color: rgba(31,41,55,0.78);
+}
+.prepBlock__list{ margin:10px 0 0; padding-left: 18px; display:grid; gap:8px; }
+.prepStep{ margin:0; }
+.prepStep__text{ line-height: 1.55; }
